@@ -1,7 +1,9 @@
 import streamlit as st
 from openai import OpenAI
 
-st.title("ChatGPT-like clone")
+st.set_page_config(page_title="ChatGPT-like Clone", layout="wide")
+st.title("ChatGPT-like Clone")
+
 with st.expander("ℹ️ Disclaimer"):
     st.caption(
         """We appreciate your engagement! Please note, this demo is designed to
@@ -19,9 +21,35 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "max_messages" not in st.session_state:
-    # Counting both user and assistant messages, so 10 rounds of conversation
     st.session_state.max_messages = 20
 
+# API Usage and Credits
+if "api_usage" not in st.session_state:
+    st.session_state.api_usage = 0
+
+if "api_credits" not in st.session_state:
+    st.session_state.api_credits = 100  # Assuming 100 credits initially
+
+st.sidebar.title("Usage and Credits")
+st.sidebar.write(f"API Usage: {st.session_state.api_usage}")
+st.sidebar.write(f"API Credits Left: {st.session_state.api_credits}")
+
+# File and Image Upload
+st.sidebar.title("Upload Files")
+uploaded_files = st.sidebar.file_uploader("Choose a file", accept_multiple_files=True)
+uploaded_images = st.sidebar.file_uploader("Choose an image", type=['png', 'jpg', 'jpeg'], accept_multiple_files=True)
+
+if uploaded_files:
+    st.sidebar.write("Uploaded Files:")
+    for uploaded_file in uploaded_files:
+        st.sidebar.write(f"- {uploaded_file.name}")
+
+if uploaded_images:
+    st.sidebar.write("Uploaded Images:")
+    for uploaded_image in uploaded_images:
+        st.sidebar.image(uploaded_image, caption=uploaded_image.name, use_column_width=True)
+
+# Display messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -33,7 +61,6 @@ if len(st.session_state.messages) >= st.session_state.max_messages:
         from Streamlit's [Build a basic LLM chat app](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)
         tutorial. Thank you for your understanding."""
     )
-
 else:
     if prompt := st.chat_input("What is up?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -54,6 +81,9 @@ else:
                 st.session_state.messages.append(
                     {"role": "assistant", "content": response}
                 )
+                # Update API usage and credits
+                st.session_state.api_usage += 1
+                st.session_state.api_credits -= 1
             except:
                 st.session_state.max_messages = len(st.session_state.messages)
                 rate_limit_message = """
