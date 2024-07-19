@@ -3,10 +3,10 @@ from openai import OpenAI
 import os
 
 # Set page configuration for a clean UI
-st.set_page_config(page_title="FRIDAY", layout="centered")
+st.set_page_config(page_title="ChatGPT-like clone", layout="centered")
 
 # Title and Disclaimer
-st.title("FRIDAY")
+st.title("ChatGPT-like clone")
 with st.expander("ℹ️ Disclaimer"):
     st.caption(
         """We appreciate your engagement! Please note, this demo is designed to
