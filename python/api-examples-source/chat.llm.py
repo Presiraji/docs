@@ -1,7 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 import os
-import requests
 
 # Set page configuration for a clean UI
 st.set_page_config(page_title="FRIDAY", layout="centered")
@@ -90,49 +89,3 @@ if uploaded_file is not None:
     with open(os.path.join("uploads", uploaded_file.name), "wb") as f:
         f.write(uploaded_file.getbuffer())
     st.sidebar.success("File uploaded successfully!")
-
-# Cool stock market features
-st.sidebar.title("Cool Stock Market Features")
-
-# Function to get stock data
-def get_stock_data(symbol):
-    api_url = f"https://finnhub.io/api/v1/quote?symbol={symbol}&token={st.secrets['FINNHUB_API_KEY']}"
-    response = requests.get(api_url)
-    return response.json()
-
-# Input for stock symbol
-stock_symbol = st.sidebar.text_input("Enter Stock Symbol", value="AAPL")
-if stock_symbol:
-    data = get_stock_data(stock_symbol)
-    st.sidebar.metric("Current Price", f"${data['c']}")
-    st.sidebar.metric("High Price of the day", f"${data['h']}")
-    st.sidebar.metric("Low Price of the day", f"${data['l']}")
-    st.sidebar.metric("Open Price", f"${data['o']}")
-    st.sidebar.metric("Previous Close Price", f"${data['pc']}")
-
-# Displaying historical stock prices
-st.sidebar.subheader("Historical Stock Prices")
-history_days = st.sidebar.slider("Days", min_value=1, max_value=30, value=7)
-
-def get_historical_data(symbol, days):
-    api_url = f"https://finnhub.io/api/v1/stock/candle?symbol={symbol}&resolution=D&count={days}&token={st.secrets['FINNHUB_API_KEY']}"
-    response = requests.get(api_url)
-    return response.json()
-
-if stock_symbol:
-    historical_data = get_historical_data(stock_symbol, history_days)
-    st.sidebar.line_chart(historical_data["c"], height=200, use_container_width=True)
-
-# News Section
-st.sidebar.subheader("Latest Stock News")
-news_symbol = st.sidebar.text_input("Enter News Symbol", value="AAPL")
-if news_symbol:
-    news_api_url = f"https://finnhub.io/api/v1/news?category=general&token={st.secrets['FINNHUB_API_KEY']}"
-    news_response = requests.get(news_api_url)
-    news_data = news_response.json()
-    for article in news_data[:5]:
-        st.sidebar.write(f"**{article['headline']}**")
-        st.sidebar.write(f"*{article['source']}*")
-        st.sidebar.write(article['summary'])
-        st.sidebar.write(f"[Read more]({article['url']})")
-        st.sidebar.write("---")
