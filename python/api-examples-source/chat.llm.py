@@ -23,17 +23,6 @@ if "messages" not in st.session_state:
 if "max_messages" not in st.session_state:
     st.session_state.max_messages = 20
 
-# API Usage and Credits
-if "api_usage" not in st.session_state:
-    st.session_state.api_usage = 0
-
-if "api_credits" not in st.session_state:
-    st.session_state.api_credits = 100  # Assuming 100 credits initially
-
-st.sidebar.title("Usage and Credits")
-st.sidebar.write(f"API Usage: {st.session_state.api_usage}")
-st.sidebar.write(f"API Credits Left: {st.session_state.api_credits}")
-
 # File and Image Upload
 st.sidebar.title("Upload Files")
 uploaded_files = st.sidebar.file_uploader("Choose a file", accept_multiple_files=True)
@@ -81,9 +70,6 @@ else:
                 st.session_state.messages.append(
                     {"role": "assistant", "content": response}
                 )
-                # Update API usage and credits
-                st.session_state.api_usage += 1
-                st.session_state.api_credits -= 1
             except:
                 st.session_state.max_messages = len(st.session_state.messages)
                 rate_limit_message = """
