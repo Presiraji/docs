@@ -23,16 +23,19 @@ if "messages" not in st.session_state:
 if "max_messages" not in st.session_state:
     st.session_state.max_messages = 20
 
-# API Usage and Credits
+# API Usage, Credits, and Cost
 if "api_usage" not in st.session_state:
     st.session_state.api_usage = 0
 
 if "api_credits" not in st.session_state:
     st.session_state.api_credits = 100  # Assuming 100 credits initially
 
+API_COST_PER_CALL = 0.02  # Assuming each API call costs $0.02
+
 st.sidebar.title("Usage and Credits")
 st.sidebar.write(f"API Usage: {st.session_state.api_usage}")
 st.sidebar.write(f"API Credits Left: {st.session_state.api_credits}")
+st.sidebar.write(f"Total Cost: ${st.session_state.api_usage * API_COST_PER_CALL:.2f}")
 
 # File and Image Upload
 st.sidebar.title("Upload Files")
