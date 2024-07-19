@@ -21,7 +21,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "max_messages" not in st.session_state:
-    st.session_state.max_messages = 20
+    st.session_state.max_messages = 100
 
 # File and Image Upload
 st.sidebar.title("Upload Files")
