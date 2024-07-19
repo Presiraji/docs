@@ -1,14 +1,12 @@
 import streamlit as st
 from openai import OpenAI
 
-st.set_page_config(page_title="ChatGPT-like Clone", layout="wide")
-st.title("ChatGPT-like Clone")
+st.set_page_config(page_title="FRIDAY", layout="wide")
+st.title("FRIDAY")
 
 with st.expander("ℹ️ Disclaimer"):
     st.caption(
-        """We appreciate your engagement! Please note, this demo is designed to
-        process a maximum of 10 interactions and may be unavailable if too many
-        people use the service concurrently. Thank you for your understanding.
+        """Do not use this
         """
     )
 
