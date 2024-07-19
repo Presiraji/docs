@@ -3,7 +3,7 @@ from openai import OpenAI
 import os
 
 # Set page configuration for a clean UI
-st.set_page_config(page_title="FRIDAY", layout="right")
+st.set_page_config(page_title="FRIDAY", layout="Center")
 
 # Title and Disclaimer
 st.title("ChatGPT-like clone")
